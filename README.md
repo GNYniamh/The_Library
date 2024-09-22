@@ -14,7 +14,7 @@ Pull Requests will be reviewed for quality & content.
 
 | Section                                   | Link                                                                                                   |
 |-------------------------------------------|--------------------------------------------------------------------------------------------------------|
-| AD-INT                                    | [Explore](https://github.com/GNYniamh/The_Library#AD-INT)                                            |
+| AD-INT                                    | [Jump](https://github.com/GNYniamh/The_Library#AD-INT)                                            |
 
 
 
