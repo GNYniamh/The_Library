@@ -14,7 +14,7 @@ Pull Requests will be reviewed for quality & content.
 
 | Section                                   | Link                                                                                                   |
 |-------------------------------------------|--------------------------------------------------------------------------------------------------------|
-| Introduction: Civil OSINT                 | [Explore]([https://github.com/GNYniamh/The_Library#AD-INT])                                            |
+| Introduction: Civil OSINT                 | [Explore](https://github.com/GNYniamh/The_Library#AD-INT)                                            |
 
 
 
