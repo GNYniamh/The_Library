@@ -14,10 +14,22 @@ Pull Requests will be reviewed for quality & content.
 
 | Section                                   | Link                                                                                                   |
 |-------------------------------------------|--------------------------------------------------------------------------------------------------------|
+| Helpful Resources                         | [Jump](https://github.com/GNYniamh/Resources)                                                          |
 | AD-INT                                    | [Jump](https://github.com/GNYniamh/The_Library#AD-INT)                                                 |
 | Port Knocking                             | [Jump](https://github.com/GNYniamh/The_Library#PortKnocking)                                           |
 | Steganography                             | [Jump](https://github.com/GNYniamh/The_Library#Steganography)                                          |
 | Typosquatting                             | [Jump](https://github.com/GNYniamh/The_Library#Typosquatting)                                          |
+
+
+
+
+# Resources 
+
+[GitHub Repo Navigation](https://docs.github.com/en/get-started/accessibility/keyboard-shortcuts)
+
+
+
+
 
 
 # AD-INT
