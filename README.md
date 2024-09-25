@@ -16,6 +16,7 @@ Pull Requests will be reviewed for quality & content.
 |-------------------------------------------|--------------------------------------------------------------------------------------------------------|
 | AD-INT                                    | [Jump](https://github.com/GNYniamh/The_Library#AD-INT)                                                 |
 | Port Knocking                             | [Jump](https://github.com/GNYniamh/The_Library#PortKnocking)                                           |
+| Steganography                             | [Jump](https://github.com/GNYniamh/The_Library#Steganography)                                          |
 | Typosquatting                             | [Jump](https://github.com/GNYniamh/The_Library#Typosquatting)                                          |
 
 
@@ -29,6 +30,19 @@ A dive into the sources intended for the study of the MAC address.
 # PortKnocking
 
 A method of externally opening ports on a firewall by generating a connection attempt on a set of prespecified closed ports.
+
+
+
+
+
+
+# Steganography
+
+The practice of concealing information within another message or physical object to avoid detection. 
+Steganography can be used to hide virtually any type of digital content, including text, image, video, or audio content. 
+That hidden data is then extracted at its destination.
+
+
 
 
 
