@@ -15,8 +15,7 @@ Pull Requests will be reviewed for quality & content.
 | Section                                   | Link                                                                                                   |
 |-------------------------------------------|--------------------------------------------------------------------------------------------------------|
 | AD-INT                                    | [Jump](https://github.com/GNYniamh/The_Library#AD-INT)                                                 |
-|-------------------------------------------|--------------------------------------------------------------------------------------------------------|
-| Port Knocking                             | [Jump](https://github.com/GNYniamh/The_Library#Port_Knocking)                                          |
+| Port Knocking                             | [Jump](https://github.com/GNYniamh/The_Library#PortKnocking)                                          |
 
 
 # AD-INT
@@ -26,6 +25,6 @@ A dive into the sources intended for the study of the MAC address.
 
 
 
-# Port Knocking
+# PortKnocking
 
 A method of externally opening ports on a firewall by generating a connection attempt on a set of prespecified closed ports.
