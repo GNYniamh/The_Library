@@ -15,7 +15,8 @@ Pull Requests will be reviewed for quality & content.
 | Section                                   | Link                                                                                                   |
 |-------------------------------------------|--------------------------------------------------------------------------------------------------------|
 | AD-INT                                    | [Jump](https://github.com/GNYniamh/The_Library#AD-INT)                                                 |
-| Port Knocking                             | [Jump](https://github.com/GNYniamh/The_Library#PortKnocking)                                          |
+| Port Knocking                             | [Jump](https://github.com/GNYniamh/The_Library#PortKnocking)                                           |
+| Typosquatting                             | [Jump](https://github.com/GNYniamh/The_Library#Typosquatting)                                          |
 
 
 # AD-INT
@@ -28,3 +29,11 @@ A dive into the sources intended for the study of the MAC address.
 # PortKnocking
 
 A method of externally opening ports on a firewall by generating a connection attempt on a set of prespecified closed ports.
+
+
+
+
+# Typosquatting 
+
+A type of social engineering attack that targets users who incorrectly type a URL into their web browser (ie, rather than using a search engine). 
+Typically, it involves tricking users into visiting malicious websites with URLs that are common misspellings of legitimate websites.
