@@ -1,0 +1,135 @@
+=================================
+=================================
+## Web Fundamentals ##
+=================================
+=================================
+
+An overview of HTTP requests and responses, web servers, cookies. 
+
+How do we load websites?
+
+Initially, a DNS request is made. 
+DNS is like a giant phone book that takes a URL 
+( ie, https://github.com/ ) and turns it into an IP address.
+
+This means that people don't have to remember IP addresses for their sites. 
+The IP address uniquely identifies each internet connected device, ie web server or your PC. 
+
+***These are formed in 4 groups of numbers, each 0-255 and called an octet: " x.x.x.x" .  ***
+ie, 100.70.172.11 
+
+/////////////////////////////
+l o a d i n g . . . 
+/////////////////////////////
+
+Loading some Content: 
+Once the browser knows the server's IP address, it can ask the server for the web page. That's done with an HTTP GET request. 
+    GET is an example of an HTTP verb, which are different types of request. the server will respond to the GET request with the webpage content. If the page is loading extra resources (ie, JavaScript, images, CSS files) those will be retrieved in separate GET requests.
+
+~~~~~~~~~~~~~~~
+Wireshark showing the HTTP requests that load a website (neverssl.com):
+
+3.377314        100.70.172.11       143.204.178.68      HTTP        591 GET  /online HTTP/1.1
+3.384168        143.204.178.68      100.70.172.11       HTTP        60 HTTP/1.1 200 OK (text/html)
+3.464691        100.70.172.11       143.204.178.68      HTTP        504 GET /favicon.ico HTTP/1.1
+3.470654        143.204.178.68      100.70.172.11       HTTP        178 HTTP/1.1 200 OK (PNG)
+~~~~~~~~~~~~~~~
+
+For most websites, these requests will use HTTPS, a secure (encrypted) version of HTTP, working more or less in the same way.   
+    This (normally) uses TLS 1.3 encyrption in order to communicate without:
+    -other parties being able to read the data 
+    -other parties being able to modify the data 
+If someone could modify, for example, a request to your bank to send money elsewhere, it could be impactful.
+
+A webserver is software that receives and responds to HTTP(S) reqeusts:
+    -Apache
+    -NGINX
+    -Microsoft's IIS 
+Are a few examples. By default, HTTP runs on port 80 and HTTPS on port 443. 
+If port 80 is open, there's likely a web server listening that you can attack and exploit.
+
+The actual content of the webpage is normally a combination of HTML, CSS and JavaScript.
+HTML defines the structure of the page and content.
+CSS allows you to change how the page looks.
+JavaScript runs in the browser and allows you to make pages interactive or load extra content. 
+
+=================================
+=================================
+## Verbs & Request Formats ##
+=================================
+=================================
+
+/////////////
+Requests
+////////////
+
+There are 9 different HTTP "verbs" aka "methods". 
+Each one has a different function. 
+
+GET - used to retrieve content.
+
+POST - used to send data to a web server, ie adding a comment or performing a login.
+
+HTTP requests can be broken into parts; the first line is a verb and a path for the server:
+
+    GET /index.html 
+
+The next section is headers, which give the web server more information about your request. Cookies are sent in the request headers. 
+
+Finally the body of the request; 
+for POST requests, this is the content that's sent to the server. 
+for GET requests, a body is allowed but will likely be ignored by the server. 
+
+Example of a GET request retrieving a simple JS file: 
+
+    GET /main.js HTTP/1.1
+    HOST: 192.168.170.129:8081
+    Connection: keep-alive
+    User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36
+    Accept: */*
+    Referer: http://192.168.170.129:8081/
+    Accept-Encoding: gzip, deflate 
+    Accept-Language: en-GB,en-US;q=0.9,en;q=0.8
+
+From the headers, you can tell the request was peformed from Chrome Version 80, on a Windows 10.
+That's useful information for forensics and analysing packet captures. 
+
+
+/////////////
+Responses
+////////////
+
+The server should reply with a response. 
+The response follows a similar structure to the request, but the first line describes the status rather than a verb and a path. 
+    The status will normally be a code, ie,
+    404: Not Found.
+
+A basic breakdown of status codes:
+    - 100-199: Information
+    - 200-299: Successes (200 OK is the "normal"    
+               response for a GET)
+    - 300-399: Redirects (The information you want 
+               is elsewhere)
+    - 400-499: Client errors (You did something 
+               wrong, ie asking for something that doesn't exist)
+    - 500-599: Server errors (The server tried, 
+               but something went wrong on their side)
+
+More information:  https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+
+Response Headers can often tell you something about the web server sending them, or give you cookies that may prove useful later on.
+
+The response will also have a body.
+For GET requests, this is normally web content or information such as JSON. 
+For POST requests, it may be a status message or similar. 
+
+Here's a response to the GET request shown above:
+
+HTTP/1.1 200 OK
+Accept-Ranges: bytes
+Content-Length: 28
+Content-Type: application/javascript; charset=utf-8
+Last-Modified: Wed, 12 Feb 2020 12:51:44 GMT
+Date: Thu, 27 Feb 2020 21:47:30 GMT
+
+console.log("Hello, World!")
