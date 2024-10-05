@@ -1,0 +1,206 @@
+$curl is a CLI utility for transferring data from or to a server 
+designed to work without user interaction. 
+
+With $curl you can download or upload data using one of the supported protocols using 
+    HTTP 
+    HTTPS
+    SCP
+    SFTP
+    FTP. 
+$curl provides a number of options allowing you to resume transfers, 
+limit the bandwidth proxy support user authentication, and more. 
+
+
+===========================
+===========================
+ # Installing curl #
+===========================
+===========================
+
+Check whether the Curl package is installed:
+1. open terminal 
+2. type $curl and press enter 
+3. if installed, it will return 
+    $curl: try 'curl --help' or 'curl --manual' 
+4. otherwise you will see 
+    $curl command not found 
+
+ON UBUNTU / DEBIAN ::: 
+
+    $sudo apt update 
+    $sudo apt install curl 
+
+CentOS / Fedora ::: 
+
+    $sudo yum install curl 
+
+===========================
+===========================
+ # Using Curl #
+===========================
+===========================
+
+The syntax for curl: 
+
+    $curl [options] [URL]
+
+When invoked without any option, it displays the specified resource to the standard output.
+For example, to retrieve the example.com homepage: 
+
+    $curl example.com 
+
+Which would print the source code of example.com.
+Curl will default to HTTP. 
+
+//////////////////////
+Save the output to a file 
+//////////////////////
+
+To save the result of the $curl command, use either 
+    -o 
+    -O 
+Where -o saves the file with a predefined filename:
+    $curl -o vue-v2.6.10.js https://cdn.jsdelivr.net/npm/vue/dist/vue.js
+And -O saves with the original filename: 
+    curl -O https://cdn.jsdelivr.net/npm/vue/dist/vue.js
+
+
+To download multiple files at once, use multiple -O options,
+followed by the URL to the file you want. 
+For example, we're downloading Arch Linux and Debian iso files here:
+
+    $curl -O https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-9.4.0-amd64-netinst.iso
+
+To resume a download you can use the -C - option. 
+This is helpful if your connection ddrops during the download of a large file. 
+
+    $curl -O http://releases.ubuntu.com/18.04/ubuntu-18.04-live-server-amd64.iso
+
+and then suddenly you get disconnected from the internet, you could then do : 
+
+    $curl -C - -O http://releases.ubuntu.com/18.04/ubuntu-18.04-live-server-amd64.iso
+
+//////////////////////
+User Agent & Transfer
+//////////////////////
+
+Changing the User Agent:
+Sometimes when downloading a file, the remote server may be set to block the curl user-agent or return different contents based on the visitor device/browser. In situations like this you can emulate a different browser using the -A option. 
+
+Ie, to emulate Firefox 60:
+
+    $curl -A "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0" https://getfedora.org/
+
+
+to Specify a Maximum Transfer Rate::::
+Use the --limit-rate option 
+The value can be expressed in bytes, kilobytes with the k suffix, megabytes with m suffix, and gigabytes with g suffix.
+
+Here, curl will download the Go binary and limit the dodwnload speed to 1 mb: 
+
+    $curl --limit-rate 1m -O https://dl.google.com/go/go1.10.3.linux-amd64.tar.gz
+
+Which is useful to prevent curl consuming all the available bandwidth. 
+
+
+Transfer Files with FTP :::::
+To access a protected FTP server, use the -u option and specify the username and password: 
+
+    $curl -u FTP_USERNAME:FTP_PASSWORD ftp://ftp.example.com/
+
+Once logged in, the command lists all files and directories in the user's home directory. 
+You can download a single file from the FTP server using the following syntax:
+
+    $curl -u FTP_USERNAME:FTP_PASSWORD ftp://ftp.example.com/file.tar.gz
+
+To upload a file to the FTP server, use the -T followed by the name of the file you want to upload:
+
+    $curl -T newfile.tar.gz -u FTP_USERNAME:FTP_PASSWORD ftp://ftp.example.com/
+
+===========================
+===========================
+ # Get HTTP Headers of URL #
+===========================
+===========================
+
+HTTP headers are colon-separated keyvalue pairs containing information 
+such as user agent, content type, encoding. 
+Headers are passed between the client adn the server with the request or the response. 
+
+You can use the -I option to fetch only HTTP headers of specified resources:
+
+    $curl -I --http2 https://www.ubuntu.com/
+
+//////////////////////
+Test if Website Supports HTTP/2
+//////////////////////
+https://en.wikipedia.org/wiki/HTTP/2
+
+To check whether a particular URL supports the new HTTP/2 protocol, fetch the HTTP Headers with -I along with the --http2 option: 
+
+    $curl -I --http2 -s https://linuxize.com/ | grep HTTP
+
+The -s option tells curl to run in silent (quiet) and hide the progress meter / error messages. 
+If the remote server supports HTTP/2, curl prints HTTP/2.0 200 : 
+Output:
+    HTTP/2 200
+Otherwise, the output is 1.1 : 
+    HTTP/1.1 200 OK
+( curl version 7.47.0 and newer has --http2 option built in. )
+
+Following Redirects:
+
+By default, curl doesn't follow the HTTP Location headers. 
+If you try and retrieve the non-www version of google.com you'll notice that instead of getting the source you'll be redirected to the www version:
+
+    $curl google.com
+
+returns some info with "the document has moved" 
+The -L option instructs curl to follow any redirect until it reaches the final destination:
+
+    $curl -L google.com
+
+===========================
+===========================
+ # Cookies, Proxies... #
+===========================
+===========================
+
+You may need to make an HTTP reqeust with specific cookies to access a remote resource / debug an issue. 
+    By default, when reqeusting a resource with curl, no cookies are sent or stored. 
+to send cookies to the server, use the -b switch followed by a filename containing the cookies or a string. 
+
+    Ie, to download the oracle java JDK rpm file 
+    you'd need to pass a cookie named [ oraclelicense ] with the value [a]
+
+        $curl -L -b "oraclelicense=a" -O http://download.oracle.com/otn-pub/java/jdk/10.0.2+13/19aef61b38124481863b1413dce1855f/jdk-10.0.2_linux-x64_bin.rpm
+
+//////////////////////
+Using Proxies
+//////////////////////
+
+curl supports HTTP / HTTPS / SOCKS / etc. 
+to transfer data through a proxy server, use the
+    -x (--proxy) option, followed by the proxy URL. 
+The following command would, for example, download the resource using a proxy on 192.168.44.1 port 8888: 
+
+    $curl -x 192.168.44.1:8888 http://linux.com/
+
+If the proxy server requires authentication, use the 
+    -U (--proxy-user)
+option, followed by the username and password 
+    (user:password):
+
+        $curl -U username:password -x 192.168.44.1:8888 http://linux.com/
+
+
+
+
+citations:
+
+https://gist.github.com/eneko/dc2d8edd9a4b25c5b0725dd123f98b10
+
+https://curl.se/docs/
+
+https://linuxize.com/post/curl-command-examples/#send-cookies
+
