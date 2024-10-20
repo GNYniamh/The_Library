@@ -1,0 +1,25 @@
+===========================================
+# OSINT Toolbox #
+===========================================
+
+Some tools to start, or add to, your OSINT toolbox. 
+
+**Kase Scenarios:** https://kasescenarios.com/ 
+Immersive OSINT training that's guided by a narrative simulating a real world investigation.
+
+**Kasm:** https://kasmweb.com 
+Kasm is a SaaS based solution (but you can also self-host) that allows you to run browsers, apps or even full 
+linux desktops in docker containers hosted in their cloud. 
+This is an amazing resource for OSINT investigators. 
+The 1.16 release of their product adds the ability to set your own egress points! 
+    This means that you can decide where you want your outbound IP address to be in conjunction with your services 
+    running in a docker container in someone else's cloud. Really cool stuff.  
+
+**Intel Techniques** https://inteltechniques.com  
+Michael Bazzell continues to update their paid training and print materials to stay current with the lastest developments in the OSINT landscape. 
+
+**Search Tools** 
+Useful part of real world investigations. Both Epieos: https://epieos.com and Castrick Clues: https://castrickclues.com 
+
+**Joe Gray's OSINTION** https://www.theosintion.com/
+Affordable on demand trainings that continue to provide value to our community members.
