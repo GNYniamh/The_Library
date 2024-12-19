@@ -1,0 +1,474 @@
+=================================
+=================================
+## Introduction to Networking ##
+=================================
+=================================
+Introduction room 
+//////////////////
+    The aim of this room is to provide a beginner's introduction to basic principles of Networking.
+-OSI Model 
+-TCP/IP Model 
+-How these models look in practice 
+-An intro to basic networking tools
+
+=================================
+=================================
+## OSI Model: An Overview ##
+=================================
+=================================
+
+The OSI ( ==Open Systems Interconnection ) Model is a standardized model which we will use to demonstrate the theory behind computer networking. 
+    In practice, it's actually the more compact TCP/IP model that the real-world networking is based off; however the OSI model is easier to step into. 
+
+The OSI model consists of **Seven** layers: 
+
+    | ///////OSI///////|
+    ---------------------
+    | Application       |
+    ---------------------
+    | Presentation      |
+    ---------------------
+    | Session           |
+    ---------------------
+    | Transport         |
+    ---------------------
+    | Network           |
+    ---------------------
+    | Data Link         |
+    ---------------------
+    | Physical          |
+    ---------------------           
+
+      [ A P S T N D P ]
+
+//////////////////////////
+Layer 7 - Application 
+//////////////////////////
+
+Application Layer provides networking options to programs running on a computer.
+It works almost exclusively with applications, providing an interface for them to use in order to _transmit data_. 
+
+When data is given to the application layer, it is passed down into the Presentation Layer.
+
+//////////////////////////
+Layer 6 - Presentation 
+//////////////////////////
+
+Presentation Layer receives data from the Application Layer. 
+
+The data tends to be in a format that the app undeerstands, but not always standardized for the app layer in the receiving computer.
+
+The Presentation layer _translates_ the data into a standardized format, as well as _handling encryption_ ; compression ; or other transformations to data.
+
+With this complete, the data is passed down to the Session Layer.
+
+//////////////////////////
+Layer 5 - Session 
+//////////////////////////
+
+When the Session Layer receives the correctly formatted data from the Presentation Layer it looks to see if it can _set up a connection_ with the other computer across the network. 
+    -If it can't, it sends back an error and the process can go no further. 
+
+    -If it _can_ be established, the session layer maintains it and cooperates with the session layer of the remote computer to synchronise communications. 
+
+The session layer is particularly important: the session *it* creates will be unique to the communication in question, and is what allows you to make multiple requests to different endpoints simultaneously without all the data getting mixed up. 
+    (ie, opening two tabs in a web browser at the same time)
+
+When the session layer has successfully logged a connection between the host and remote computer the data is passed down to Layer 4: Transport. 
+
+//////////////////////////
+Layer 4 - Transport 
+//////////////////////////
+
+The Transport Layer serves multiple functions:
+
+    1. Choose the protocol over which the data is to be transmitted.
+        -The two most common protocols in the      Transport Layer are 
+            TCP ( ==Transmission Control Protocol )
+            UDP ( ==User Datagram Protocol )
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+With TCP the transmission is _connection-based_ which means that a connection between the computers is established and maintained for the duration of the request.
+    This allows for a reliable transmission, as the connection can be used to ensure that the packets ALL get to the right place. 
+A TCP connection allows the 2 computers to remain in constant communication to ensure that the data is also sent at an acceptable speed for performance, and that any data lost is resent.
+
+With UDP, the opposite is true. Packets of data are essentially thrown at the receiving computer; if it can't keep up, then that's _it's_ problem
+    (demonstrated by a pixelated Skype video transmission if the connection is bad)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+What this means is that TCP would usually be chosen for situations where accuracy is favored over speed ( ie, file transfer or loading a webpage ) and UDP for situations where speed is more important ( ie, video streaming )
+
+With a protocol selected, the transport layer then divides the transmission up into bite-sized pieces ( over TCP, these are called Segments; over UDP, Datagrams ) which makes it easier to transmit the message successfully. 
+
+//////////////////////////
+Layer 3 - Network 
+//////////////////////////
+
+The Network Layer is responsible for locating the destination of your request. 
+    For example, the Internet is a huge network; when you want to request information from a webpage, it's the network layer that takes the IP address for the page and figures out the best route to take. 
+At this stage, we're working with Logical Addressing ( ie, IP addresses ) which are still software-controlled. 
+
+Logical Addresses are used to provide order to networks, categorizing them and allowing us to properly sort them.  Currently the most common form of logical addressing is the IPV4 format.
+(ie:  192.168.1.1  is a common address for a home router.)
+
+//////////////////////////
+Layer 2 - Data Link 
+//////////////////////////
+
+
+The Data Link layer focuses on the physical addressing of the transmission.  It receives a packet from the Network Layer ( that includes the IP address for the remote computer ) and adds in the _physical_ ( MAC ) address of the receiving endpoint. 
+    Inside every network enabled computer is a Network Interface Card ( NIC ) which comes with a unique MAC ( Media Access Control ) address to identify it.
+
+MAC addresses are set by the manufacturer and literally burnt into the card; they can't be changed - although they _can_ be spoofed. >:)
+    When information is sent across a network, it's actually the physical address that is used to identify where exactly to send the information. 
+
+Additionally, it's also the job of the Data Link Layer to present the data in a format suitable for transmission. 
+The Data Link Layer serves an important function when it receives data, as it checks the received information to make sure that it hasn't been corrupted during transmission, which could happen when the data is transmitted by Layer 1 - the Physical Layer.
+
+//////////////////////////
+Layer 1 - Physical 
+//////////////////////////
+
+The Physical Layer is right down to the hardware of the computer.  It's where the electrical pulses that make up data transfer over a network are sent and received. 
+
+It's the job of the physical layer to convert the binary data of the transmission into signals and transmit them across the network, as well as receiving incoming signals and converting them back into binary data. 
+
+=================================
+=================================
+## Encapsulation ##
+=================================
+=================================
+
+As the data is passed down each layer of the model, more information containing details specific to the layer in question is added on to the start of the transmission. 
+
+ In example:
+    The Header added by the *Network Layer* would include things like:
+        -the source and destination IP addresses 
+    Where the Header added by the *Transport Layer* would include:
+        -information specific to the protocol being used
+
+ The Data Link layer also adds a piece on at the _end_ of the transmission [TRAILER], which is used to verify that the data hasn't been corrupted on transmission. This adds increased security, as the data can't be intercepted & tampered with without breaking the Trailer.
+
+This whole process is referred to as _encapsulation_ == the process by which data can be sent from one computer to another.
+
+___________________________________________________
+Stage 1:  | Application layer Header is added 
+L7 HEADER ||    Data (Data)
+---------------------------------------------------
+Stage 2:  | Presentation Layer Header is added
+L6 HEADER ||    Data (Data)
+---------------------------------------------------
+Stage 3:  | Session Layer Header is added 
+L5 HEADER ||    Data (Data)
+---------------------------------------------------
+Stage 4:  | Transport Layer Header is added 
+L4 HEADER || Data (Segments/Datagrams)
+---------------------------------------------------
+Stage 5:  | Network Layer header is added 
+L3 HEADER || Data (Packets)
+---------------------------------------------------
+Stage 6:  | Data Link Header and Trailer are added
+L2 HEADER ||    Data (Frames)       || L2 TRAILER
+---------------------------------------------------
+Stage 7:  | Encapsulated data sent across network
+          ||    Data Stream (Bits)
+---------------------------------------------------
+
+
+As shown above, as the Encapsulated Data moves through each layer, it is called something different.
+    - Layers 7 / 6 / 5 == " Data " . 
+    - Transport Layer == "Segment" or "Datagram" 
+        ( depending on whether TCP or UDP used as transmission protocol )
+    - Network Layer == "Packet"
+    - Data Link Layer == "Frame" 
+    - Sent across network ( 7 ) == "Bits" 
+
+When the message is received by the second computer, it REVERSES the process -- de-encapsulation. 
+    De-Encapsulation == Starting at the Physical Layer and working up until it reaches the Application Layer, stripping off the added information as it goes. 
+All computers follow this process of Encapsulation to send data and de-encapsulation upon receiving it. 
+
+This exchange provides a standardization for sending data.
+This means all transmissions will consistently follow the same methodology, allowing any network-enabled device to send a request to any other reachable device and be sure that it will be understood --- regardless of whether they're from the same manufacturer, use the same Operating System, or any other factors.
+
+
+=================================
+=================================
+## The TCP/IP Model ##
+=================================
+=================================
+
+The TCP/IP Model is similar to the OSI model. 
+It's a few years older, serving as the basis for real-world networking.
+There are 4 Layers, and between them is the same range of functions as the 7-layered OSI model.
+_____________________
+| TCP/IP            |
+|-------------------|
+| Application       |
+|-------------------|
+| Transport         |
+|-------------------|
+| Internet          |
+|-------------------|
+| Network Interface |
+---------------------
+
+
+    _note: some recent sources split the model into 5 layers, breaking the Network Interface Layer into Data Link & Physical Layers like the OSI.  This is accepted but is not officially defined ( RFC1122 )_
+
+
+Although the TCP / IP Model is more real-world, the OSI Model is good for learning theory.  Here is how they match up:
+
+____________________________________________________________
+| OSI               |       TCP / IP
+|-------------------|---------------------------------------
+| Application       |   
+|-------------------|
+| Presentation      |       Application
+|-------------------|   
+| Session           |
+|-------------------|---------------------------------------
+| Transport         |       Transport
+|-------------------|---------------------------------------
+| Network           |       Internet
+|-------------------|---------------------------------------
+| Data Link         |
+|-------------------|       Network Interface
+| Physical          |
+----------------------------------------------------------
+
+The processes of Encapsulation & De-Encpasulation work in the same way with the TCP / IP and OSI. 
+    At each layer of the TCP/IP a Header is added during Encapsulation and removed during De-Encapsulation.
+
+
+//////////////////////////
+PRACTICAL APPLICATION
+//////////////////////////
+
+With TCP / IP it's a set of protocols - rules that define how an action is to be carried out:
+    TCP == Transmission Control Protocol 
+        Controls the flow of data between two endpoints
+    IP == Internet Protocol
+        Controls how packets are addressed and sent. 
+
+There are more protocols that make up the TCP/IP suite
+
+~~~~~~~~~~~~~~~~~~~
+        TCP  
+~~~~~~~~~~~~~~~~~~~
+
+TCP 
+    - Connection-based protocol 
+    - Before you send any data via TCP, a Stable Connection is required
+        between the 2 computers.
+    - The process of forming this connection == THREE-WAY HANDSHAKE.
+
+When you attempt to make a connection, your computer first sends a special request to the remote server indicating that it wants to make a connection.
+    This request contains a SYN ( ==Synchronise ) Bit, which makes first contact in starting the connection process. 
+The server will then respond with a packet containing the SYN Bit, as well as another "acknowledgement" bit -- ACK . 
+Finally, the computer sends a packet with the ACK Bit by itself, confirming that the connection has been set up successfully.
+
+With the Three Way Handshake completed, data can be reliably transmitted between the 2 computers; any data that's lost or corrupted on transmission is resent, thus leading to a connection which appears to be lossless. 
+
+CLIENT                              SERVER
+|                                    |
+|--------------------------------->>>|
+|           SYN                      |
+|                                    |
+|<<<---------------------------------|
+|           SYN/ACK                  |
+|                                    |
+|--------------------------------->>>|
+|            ACK                     |
+|                                    |
+V                                    V
+
+
+
+~~~~~~~~~~~~~~~~~~~
+    History  
+~~~~~~~~~~~~~~~~~~~
+
+Why were the TCP / IP and OSI models even created?
+No standardization meant different manufacturers followed their own 
+methodologies, and consequently systems made by different manufacturers were totally incompatible for networking.
+    The TCP/IP model was introduced by the American DoD ( 1982 ) to provide a standard. Later, the OSI model was introduced by the ISO ( ==International Organization for Standardization ). 
+
+
+=================================
+=================================
+## Networking Tools Ping ##
+=================================
+=================================
+
+Now looking at the lab that uses command line networking tools. 
+Many of the tools applied work in other operating systems, but this will be on a Linux container. 
+
+////////////////////
+:::PING COMMAND :::
+////////////////////
+
+Ping command is used when we want to test whether a connection to a remote resource is possible. 
+    Usually it's for a website on the internet but it could be for a computer on your home network if you want to see how it's configured.
+
+Ping works using the ICMP protocol -- one of the lesser known TCP / IP protocols. 
+    ICMP protocol works on the Network Layer of the OSI Model and thus the Internet Layer of the TCP / IP model .
+    The basic syntax for ping is : 
+
+    $ping <target>
+
+    So here we're going to use it to test whether a network connection to Google is possible: 
+
+    $ping google.com
+    PING google.com (216.58.198.174) 56(84) bytes of data. 
+s
+Notice that the ping command actually returned the IP address for the Google server it connected to, rather than the URL that was requested. 
+That's a handy secondary application for ping, as it can be used to determine the IP address of the server hosting a website. 
+    One of the big advantages of ping is that it's pretty much ubiquitous to any network enabled device. All operating systems support it out of the box, and even most embedded devices can use it.
+Syntax questions can be generally answered in Linux by using 
+    $man ping
+So, to ping a site for the bbc.co.uk website:
+$ping bbc.co.uk
+Ping the following: [ muirlandoracle.co.uk ]
+what's the IPv4 address: 217.160.0.152
+What switch lets you change the interval of sent ping requests:
+$ -i 
+What switch allows you to restrict IPv4 requests?
+$ -4 
+What switch would give a more verbose output?
+$ -v
+
+
+=================================
+=================================
+## Networking Tools Traceroute ##
+=================================
+=================================
+
+The logical followup to the ping command is [ traceroute ]. 
+    it's used to map the path your request takes as it hads to the target machine. 
+
+As the internet has myriad servers and endpoints, to get to the content you actually want you need to go through a bunch of other servers first. 
+Traceroute allows you to see each of tehse connections - it allows you to see every intermediate step between your computer and the resource that you requested. 
+    The basic syntax on Linux: 
+        $traceroute <destination>
+
+By default, Windows traceroute utility [ tracert ] operates using the same ICMP protocol that ping uses, and the Unix equivalent operates over UDP. That can be altered with switches in both instances.
+
+In the example photo [ hops.png ] you see 13 lines total after the traceroute command was sent. that means that it took **13 hops** to get from the router [ _gateway ] to the Google server at 216.58.205.46 
+
+Again, syntax can be checked in the terminal with 
+$man traceroute 
+
+What switch would you use to specifiy an interface when using Traceroute?
+$ -i 
+What would you use if you wanted to use TCP SYN requestes when tracing?
+$ -T
+Which layer of the TCP / IP model will traceroute run by default (windows)?
+Internet Layer.
+
+=================================
+=================================
+## Networking Tools WHOIS ##
+=================================
+=================================
+
+A domain translates into an IP address.  They're leased out by companies - Domain Registrars. If you want a domain, you go and register with a registrar then lease the domain for a certain length of time. 
+
+Whois essentially allows you to query who a domain name is registered to. In Europe, personal details are redacted, but elsewhere you can get a lot of information from this command. 
+    There's a web version [ https://www.whois.com/whois/ ] of the whois tool if you dont want to use the command line too.
+
+_(note: you may need to install whois first. on Debian-based systems this can be done with $sudo apt update && sudo apt-get sintall whois )
+
+Syntax: $whois <domain>
+
+Some information you can read from the output:
+    Domain name; company that registered the domain; the last renewal; when the renewal is due; information on nameservers.
+
+What is the registrant postal code for Facebook?
+94025 
+When was the fb domain first registered?
+03/29/1997 
+What city is microsoft registered in?
+Redmond 
+What's the golf course nearby?
+Bellevue golf course 
+What's the registered tech email?
+msnhst@microsoft.com
+
+
+=================================
+=================================
+## Networking Tools Dig ##
+=================================
+=================================
+
+How do Domains work? - a URL gets converted into an IP address that your computer can understand through the TCP / IP protocol, DNS ( ==Domain Name System ).
+    At the most basic level, DNS asks a special server to give us the IP address of the website we're trying to access. 
+        ie, if we made a request to google.com, the computer would first send a reqeust to a sepcial DNS server (which your computer already knows how to find). The server would then go looking for the IP addres for Google and send it back. Then the computer could send the request to the IP of the server.
+
+///////////////
+Request Steps
+//////////////
+
+1. make a request to a website. First thing computer does is check its local cache to see if it's already got an IP address stored for that site; if not, it goes to the next step. 
+
+2. Computer sends a request to _recursive_ DNS server. These are automatically kown to the router on your network. 
+    Many ISPs ( ==Internet Service Providers ) maintain their own recursive servers, but companies such as Google and OpenDNS also control recursive servers. 
+That's how your computer already knows where to send the request for information; details for a recursive DNS server are stored in your router.
+    
+///////////////
+    TLD
+//////////////
+  
+    The server will also maintain a cache of results for popular domains, but if the site you've requested isn't stored in the cache, the recursive server will pass the request on to a root name server. 
+
+Before 2004 there were 13 root name DNS servers in the world; now there are more, but they're still accessible using the same 13 IP addresses assigned to the original servers ( balanced so that you get the closest server when you make a request ).
+
+The root name servers keep track of the DNS servers in the next level down, choosing one to redirect the requests to.  
+    The lower level servers are called **Top-Level Domain Servers**. 
+
+TLD ( ==top-Level Domain Servers ) are split into extensions.
+    ie, if searching for tryhackme.com your request would be redirected to a TLD server that handled [ .com ] domains. 
+        if searching for bbc.co.uk your request would be redirected to a TLD server that handles [ .co.uk ] domains. 
+
+//////////////////////////////
+Authoritative Name Servers
+//////////////////////////////
+
+As with root name servers, TLD servers keep track of the next level down: _Authoritative Name Servers_ . When a TLD server receives your request for information, the server passes it down to an appropriate Authoritative name server. 
+
+Authoritative Namer Servers are used to store DNS records for domains directly. So, every domain in the world will have its DNS records stored on an Authoritative Name Server somewhere or another; they're the source of the information. 
+    When your request reaches the authoritative name server for the domain you're querying it will send the relevant information back to you allowing your computer to connect to the IP address behind the domain you requested. 
+
+/////////////
+    DIG
+/////////////
+
+When you visit a site in your browser this all happens automatically, but we can also do it manually with a tool called DIG. 
+    like PING and TRACEROUTE , DIG should be installed automatically on Linux systems. 
+DIG allows us to manually query recursive DNS servers of our choice for information about domains:
+    $dig <domain> @<dns-server-ip>
+It can be super useful for network troubleshooting.
+[ see dig.png ]
+    $dig google.com @1.1.1.1
+Returns a lot of information, but the [ ANSWER ] section is what we'll focus on. In summary, the return is telling us we sent it one query and successfully ( No Errors ) received one full answer - which contains the IP address for the domain name we queried. 
+
+    DIG also gives us the TTL ( ==Time To Live ) of the queried DNS record. When a PC queries a domain name it stores the results in its local cache. The TTL of the record tells your pc when to stop considering the record as being valid -- ie, when it should request the data again, rather than relying on the cached copy. 
+The TTL can be found in the second column of the answer section:              V
+    ;; ANSWER SECTION:      
+    google.com.             157   IN   A
+
+TTL in the context of DNS caching is measured in seconds so the record in the example [ ttl.png ] will expire in two minutes, thrity seven seconds.
+
+What is DNS short for? 
+Domain Name System
+What is the first type of DNS server your computer would query when you search for a domain?
+Recursive
+What type of DNS server contains records specific to the domain extensions (ie, .com / .co.uk)? 
+TLD, Top-Level Domain
+Where is the first place your computer would look to find the IP address of a domain? 
+Local Cache
+Google runs two public DNS servers. One of them can be queried with the IP 8.8.8.8, what is the IP of the other one? 
+8.8.4.4
+If a DNS query has a TTL of 24 hours, what number would the DIG query show? 
+86400 ( that's in seconds )
