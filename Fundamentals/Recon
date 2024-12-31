@@ -1,0 +1,96 @@
+===================================
+  ## Reconnaissance ##
+===================================
+_mapping out the attack surface_
+
+/check Robots.txt/
+>>found in a site's web root. 
+>>>>tells well-behaved web crawlers what parts of the site to ignore 
+
+/try Common URLs/
+>>>By guessing common page and directory names, you can discover more 
+content.
+(a tool like dirbuster can help: a file/directory penetration testing tool with a Graphic User Interface (GUI) that is used to brute force directories and file names on web application servers.)
+
+/look for HTML Comments & Hidden elements/ 
+>>>Look for forms, form fields, and links that appear in the page source but aren't visible
+on the page. 
+>>>>The CSS style display: none; hides an element; remove the styling to make it visible again.
+>>>>>>Take a look at the HTML comments. 
+
+
+===================================
+  ## System Fingerprinting ##
+===================================
+_identify what components the system is using_
+
+/questions to ask/ 
+
+- Which web server: Apache, nginx, IIS? 
+- Which web framework: .NET, Django, Struts? 
+- Which database: MySQL, PostgreSQL, Oracle?
+- Version numbers for web server adn other components -> Are they up to date?
+
+/where to look/
+
+HTTP response headers
+- Look for Server adn X-Powered-By
+
+Error Messages
+- Look for version info and stack traces
+
+Cookies
+- Cookie names can reveal framework info. 
+>> If they're managing cookies themselves, think about how they're being generated; 
+Are they predictable?  
+How are they processed on the server? 
+
+
+=======================================
+  ## Open Source Intelligence: OSINT ##
+=======================================
+_gather info on the public internet_ 
+
+/What to look for/ 
+- Known vulnerabilities in frameworks / other components 
+- Default credentials 
+- Employee contact information / personal information 
+
+/how to find it/ 
+- Google error messages, cookie names, version headers, password hashes...
+- Read framework / component documentation 
+- Read framework / component security advisories 
+- Look up company employees on social media 
+
+**Your Google searches aren't private, so when testing applications, don't google 
+password hashes or other highly sensitive information - not even in incognito mode**
+
+
+===================================
+  ## Attacks ##
+===================================
+
+----Cross-Site Scripting XSS------
+_inject malicious JavaScript into a webpage_
+
+XSS allows an attacker to inject client side code (HTML, JavaScript, etc) into the page such
+that it's rendered in the victim's browser. 
+XSS is possible when user input that hasn't been properly output-encoded is included in a webpage. 
+
+XSS can come in 3 types: 
+
+    (1) REFLECTED
+    Script is provided by the caller, included in the response from the server, and executed 
+    in the browser. eg, a search term provided in a URL parameter is rendered in the body 
+    of the page. 
+
+    (2) PERSISTENT
+    Script is stored in a datastore, and included in the body of the page when it's 
+    rendered. eg, a forum that allows users to leave comments for one another.
+
+    (3) DOM-based
+    Script is included in the page via client-side JavaScript rendering. The malicious
+    input is never sent tot he server. eg, an application that updates a user's display
+    name client-side based on provided input. (example.com/welcome/#name=Bob)
+
+
