@@ -94,3 +94,146 @@ XSS can come in 3 types:
     name client-side based on provided input. (example.com/welcome/#name=Bob)
 
 
+/what to look for/ 
+Data or text you provided is reflected back to you on the page; if that data isn't properly 
+encoded, an XSS vulnerability might be present. 
+EX: 
+    - You search for "foo" in the site's search form, and the result page says
+    "your search for 'foo' returned no results" 
+
+    - You navigate to example.com/fakePage adn the 404 says "sorry, page 'fakepage' not found"
+
+    - You try to log in as user "bob" and the following message is returned:
+    "the user 'bob' doesn't exist" 
+
+
+/Test cases ~ Discovery/ 
+Once you find where your input is being reflected back to you, try one of these test cases 
+to see if it's being properly encoded. 
+
+    <marquee>   
+        if not properly encoded, causes content to scroll sideways across the page.
+
+    <plaintext> 
+        if not properly encoded, causes browser to display raw HTML 
+
+/Test cases ~ Exploitation/
+To score points for XSS, your exploit must open a JavaScript alert box. 
+
+
+    <script>alert(1)</script>
+        the sipmlest possible XSS exploit
+    
+    <img src="javascript:alert('xss')"/>
+        some applications filter <script> tags, and this is one way to bypass it.
+
+    <body onload="alert('xss')"/>
+        event handlers like onload are another XSS injection point.
+
+
+===================================
+  ## SQL Injection ##
+===================================
+_execute arbitrary SQL commands on the server; possible when the server 
+concatenates user-supplied data with SQL code_
+
+/what to look for/
+Look for places where the application could be querying a SQL database.
+If a page isn't completely static, it's probably retrieving information from a database.
+
+Think about what SQL code the application might be running; ie, when a user logs in,
+the query might look like:
+
+    SELECT * FROM Users 
+    WHERE Username= '[user input]'
+    AND password = '[user input]';
+
+
+/Special characters/
+
+'       A single quote delimits strings in SQL queries; becaues most user input is 
+        wrapped in strings, this is usually your first step to breaking out of the 
+        string adn changing the rest of the query.
+
+#
+--      Comment signs which tell the SQL interpreter to ignore the rest of the line.
+
+;       A semicolon ends a SQL comment, which can be used to string multiple commands
+        together if the database supports it.
+
+OR
+AND     SQL supports boolean operators.
+
+<
+=       SQL supports comparison operators; note that comparison uses = , not ==
+
+
+
+/Test Cases/
+
+
+'           A single quote is the simplest discovery test case.
+            if this throws a SQL error, it's a sure sign you've found SQL injection.
+
+\'          Another discovery test case, some databases escape special characters 
+            with backslashes adn if the application escapes unsafe characters,
+            this could bypass it.
+
+' OR 1=1#   Inserted into a WHERE clause, this forces it to evaulate to true,
+            and is good for bypassing authentication on login forms.
+
+
+------Forceful Browsing------
+
+Pages may just be hidden from users, not protected with proper access control checks.
+    Forceful Browsing may just mean browsing directly to an administrative page, 
+    or you might need to combine it with parameter tampering to view pages that you 
+    shouldn't normally have access to.
+
+/what to look for/
+Keep an eye on the URL. As an admin or other privileged user, try browsing to as 
+many authenticated pages as possible, copying each URL to be used later.
+
+/Test Cases/
+Try to access each authenticated page (including any URL parameters) as an unauthenticated 
+or lower-privileged user. 
+    If a page contains information that only one user should be able to access, logout,
+    login as another user, and try to browse the page again.
+
+
+------Parameter Tampering------
+
+It's possible to change any form or URL parameter; sometimes, changing a value (like
+a user ID) can allow you to see or tamper wtih data without authorization.
+
+/what to look for/
+All parameters sent to the server:
+- URL parameters
+- Checkboxes
+- Dropdowns
+- Hidden Form Fields
+- Radio Buttons
+- Cookies
+
+
+/Test Cases/
+To tamper with a URL parameter, edit it in your address bar and hit ENTER.
+To tamper with a Form Parameter, edit it using your browser's developer tools, then
+submit the form.
+
+
+------File Upload------
+Many ways to abuse insecure file uploads exist.
+    An attacker can upload code, then look for ways to execute it on the server.
+    They can overwrite other files on the server. 
+    They could upload malicious scripts or malware that would execute when other users
+    view them.
+
+
+/what to look for/
+Any file upload functionality.
+
+/Test Cases/
+TAmper with file names, paths and extensions.
+Can you upload a file type that isn't permitted? 
+Can you upload code, and can you run it?
