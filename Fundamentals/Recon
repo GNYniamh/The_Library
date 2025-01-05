@@ -237,3 +237,96 @@ Any file upload functionality.
 TAmper with file names, paths and extensions.
 Can you upload a file type that isn't permitted? 
 Can you upload code, and can you run it?
+
+
+
+===================================
+  ## Input Validation ##
+===================================
+
+
+>Ideally, a developer should use existing API for their language; for example,
+(Java): Rather than use Runtime.exe to issue a 'mail' command, use the available 
+Java API located at javax.mail*
+    If no such available API exists, the developer should scrub all input for
+    malicious characters. 
+    Implementing a positive security model would be most efficient. 
+    Typically, it's easier to define the legal characters than the illegal.
+
+Input validation itself referes to the process of validating all the input 
+to an application before using it. It's absolutely critical to application security,
+and most app risks involve tainted input at some level. 
+    Many applications dont' plan input validation, and leave it up to the 
+    individual developers -- a recipe for disaster, as different developers 
+    will inevitably choose a different approach, and many will simply
+    leave it out in pursuit of more interesting development. 
+
+
+------Cache Poisoning------
+
+The impact of a maliciously constructed response can be magnified if it's cached, 
+either by a web cache used by multiple users, or even the browser cache of a 
+single user.
+    If a response is cached in a shared web cache, such as those commonly 
+    found in proxy servers, then all users of that cache will continue to 
+    receive the malicious content until the cache entry is purged.
+
+    Similarly, if the response is cached in the browser of an individual,
+    then that user will continue to receive the malicious content until the
+    cache entry is purged (although only the user of the local browser 
+    instance will be affected)
+
+To successfully carry out such an attack, an attacker: 
+
+    - Finds the vulnerable service code, which allows them to fill the 
+    HTTP header field with many headers.
+
+    - Forces the cache server to flush its actual cache content, which we 
+    want to be cached by the servers.
+
+    - Sends a specially crafted request, which will be stored in the cache.
+
+    - Sends the next request: The previously injected content stored in 
+    cache will be the response to this request. 
+
+This attack is rather difficult to carry out in a real environment; the list
+of conditions is long and hard to accomplish by the attacker. 
+However, it's easier to use this technique than Cross-user Defacement. 
+
+
+------Cross-User Defacement------
+
+An attacker makes a single request to a server that will cause the 
+server to create two responses - the second of which may be misinterpreted
+as a response to a different request (possibly one made by another user sharing the 
+same TCP connection with the server).
+
+Accomplished by:
+1. Convincing the user to submit the malicious request themselves
+2. Or, remotely in situations where the attacker and user share a common
+    TCP connection to the server (ie, shared proxy server)
+
+Can be leveraged (best-case scenario) to convince users the app itself was hacked,
+causing loss of confidence; worst-case, attacker can mimic behavior of the app
+but redirect private information such as account numbers and passwords.
+
+*This attack type is possible because of HTTP Response Splitting, and flaws in the 
+web application. 
+    **Difficult to carry out IRL because of specific requirements for the attacker:
+        - Applciation must allow for filling the header field with more 
+            than one header using CR (Carriage Return) and LF (Line Feed) characters.
+
+
+------HTTP Response Splitting------
+
+HTTP response splitting occurs when: 
+    - Data enters a web application through an untrusted source, most frequently 
+        an HTTP request. 
+    - The data is included in an HTTP response header, sent to a web user, without
+        being validated for malicious characters.
+
+This attack is a means to an end, not an end itself.
+An attacker passes malicious data to a vulnerable application, and the app includes
+the data in an HTTP response header. 
+    To mount a successful exploit, the application must allow input that contains
+    CR ( Carriage Return, also given by %0d or \r )
