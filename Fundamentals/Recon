@@ -293,6 +293,39 @@ This attack is rather difficult to carry out in a real environment; the list
 of conditions is long and hard to accomplish by the attacker. 
 However, it's easier to use this technique than Cross-user Defacement. 
 
+A cache poisoning attack is possible because of HTTP Response Splitting and 
+flaws in the web application. It's crucial from the attacker's point of view 
+that the app allows for filling the header field with more than one header using
+CR ( Carriage Return ) and LF ( Line Feed ) characters.
+
+/Examples/
+Say there's a webpage which gets its service name from the "page" argument,
+and then redirects (302) to this service.
+        http://testsite.com/redir.php?page=http://other.testsite.com/
+
+And exemplary code of the redir.php: 
+        rezoes@dojo ~/public_html $ cat redir.php
+        <?php
+        header ("Location: . $_GET['page]);
+        ?>
+
+Crafting appropriate request: [1]
+
+1- remove page from the cache 
+
+GET http://testsite.com/index.html HTTP/1.1
+Pragma: no-cache
+Host: testsite.com
+User-Agent: Mozilla/4.7 [en] (WinNT; I)
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, image/png, */*
+Accept-Encoding: gzip
+Accept-Language: en
+Accept-Charset: iso-8859-1,*,utf-8
+
+
+HTTP header fields "Pragma: no-cache" or "Cache-Control: no-cache" will remove the page from cache (if the page is stored in cache, obviously)
+
+
 
 ------Cross-User Defacement------
 
@@ -328,5 +361,14 @@ HTTP response splitting occurs when:
 This attack is a means to an end, not an end itself.
 An attacker passes malicious data to a vulnerable application, and the app includes
 the data in an HTTP response header. 
+
     To mount a successful exploit, the application must allow input that contains
-    CR ( Carriage Return, also given by %0d or \r )
+    CR ( Carriage Return, also given by %0d or \r ) and LF ( Line Feed, also 
+    given by %0a or \n ) characters into the header, AND the underlying platform
+    must be vulnerable to the injection of such characters.
+
+    These characters not only give attackers control of the remaining headers and 
+    body of the response the app intends to send, but also allows them to 
+    create addtiional responses entirely under their control.
+
+
