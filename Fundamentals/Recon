@@ -445,4 +445,134 @@ response, followed by the original response, which is now ignored:
     the web browser...
 
 
+===================================
+  ## Command Injection ##
+===================================
+
+This is an attack in which the goal is execution of arbitrary commands on
+the host operating system via a vulnerable application. 
+    Command Injection attacks are possible when an application passes 
+    unsafe user supplied data (forms, cookies, HTTP headers, etc)
+    to a system shell.
+
+In this attack, the attacker-supplied operating system commands are 
+usually executed with the privileges of the vulnerable application. 
+    Command Injection attacks are possible largely due to insufficient
+    input validation (defined above).
+
+    This is different from code injection (which allows the attacker
+    to add his own code that's then executed by the application).
+    In command injection, the attacker extends the default 
+    functionality of the application, which executes system commands, 
+    without the necessity of injecting code. 
+
+
+/Examples/
+
+[Example 1]
+The following code is a wrapper around the UNIX command cat, which 
+prints the contents of a file to a standard output.
+It's also injectable: 
+
+
+#include <stdio.h>
+#include <unistd.h>
+
+int main(int argc, char **argv) {
+    char cat[] = "cat ";
+    char *command; 
+    size_t commandLength;
+
+    commandLength = strlen(cat) + strlen(argv[1]) + 1;
+    command = (char *) malloc(commandLength);
+    strncpy(command, cat, commandLength);
+    strncat(command, argv[1], (commandLength - strlen(cat)) );
+
+    system(command);
+    return (0);
+}
+
+
+used normally, the output would just be the contents of the file requested:
+
+$ ./catWrapper Story.txt
+When last we left our heroes...
+
+However, if we add a semicolon and another command to the end of this
+line, the command is executed by catWrapper with no complaint; 
+
+
+$ ./catWrapper "Story.txt; ls"
+When last we left our heroes...
+Story.txt       doubFree.c      nullpointer.c
+unstosig.c      www*            a.out*
+format.c        strlen.c        useFree*
+catWrapper*     misnull.c       strlength.c     useFree.c
+commandinjection.c  nodefault.c trunc.c writeWhatWhere.c
+
+
+If catWrapper had been set to have a higher privilege level than the
+standard user, arbitrary commands could be executed with that higher 
+privilege.
+
+
+[Example 2]
+
+The following simple program accepts a filename as a command line
+argument, and displays the contents of the file back to the user. 
+    The program is installed setuid root, because it's intended for 
+    use as a learning tool to allow system admins in-training to 
+    inspect privileged system files without giving them the ability 
+    to modify or damage them/the system.
+
+
+int main(char* argc, char** argv) {
+    char cmd[CMD_MAX] = "/usr/bin/cat ";
+    strcat(cmd, argv[1]);
+    system(cmd);
+}
+
+
+Because the program runs with root privileges, the call to system()
+also executes with root privileges. 
+    If a user specifies a standard filename, the call works as 
+    expected. However, if an attacker passes a string of the form
+    ";rm -rf /" then the call to system() fails to execute cat due to 
+    a lack of arguments and then plows on to recursively delete the
+    contents of the root partition. 
+
+
+[Example 3]
+
+This code from a privileged program uses the environment variable
+$APPHOME to determine the application's installation directory, and 
+then executes an initialization script in that directory. 
+
+
+...
+char* home=getenv("APPHOME");
+char* cmd=(char*)malloc(strlen(home)+strlen(INITCMD));
+if (cmd) {
+    strcpy(cmd,home);
+    strcat(cmd,INITCMD);
+    excel(cmd, NULL);
+}
+...
+
+
+
+Where, as in Example 2, the code here allows an attacker to execute
+arbitrary commands with the elevated privilege of the app.
+    Here, the attacker can modifiy the environment variable $APPHOME
+    to specify a different path containing a malicious version of 
+    INITCMD. 
+Because the program doesn't validate the value read from the environment,
+by controlling the environment variable, the attacker can fool the 
+application into running malicious code.
+
+The attacker is using the environment variable to control the command
+that the program invokes, so the effect of the environment is 
+explicit in this example. 
+But what about when the attacker changes the way the command 
+is interpreted? 
 
