@@ -576,3 +576,48 @@ explicit in this example.
 But what about when the attacker changes the way the command 
 is interpreted? 
 
+
+[Example 4]
+
+This code is from a web-based CGI utility that allows users to chaneg
+their passwords; the update process under NIS including running /make/ in 
+the /var/yp directory.
+    Note that since program updates password records, it has been
+    installed stuid root.
+The program invokes make as follows: 
+
+    system("cd /var/yp && make &> /dev/null");
+
+
+Where unlike the previous examples, the command in this is hardcoded
+so that an attacker can't control the argument passed to the system().
+    HOWEVER -- since the prgram doesn't specify an absolute path
+    for make - and doesn't scrub any environment variables prior to 
+    invoking the command - the attacker can modify their $PATH variable
+    to point to a malicious binary named make, and execute the 
+    CGI script from a shell prompt.
+        AND ... since the program has been installed setuid root, the
+        attacker's version of make now runs with root privileges.
+
+The environment plays a powerful role in the execution of system 
+commands within programs.
+    Functions like system() and exec() use the environment of the
+    program that calls them and therefore attackers have a potential 
+    opportunity to influence the bxn of these calls.
+
+
+    There are many sites that will tell you that Java's Runtime exec
+    is exactly the same as C's system function; *That's Not True*.
+    And it's not, because both allow you to invoke a new program/
+    rocess but C's system function passes its arguments to the shell 
+    (/bin/sh) to be parsed, whereas Runtime.exec tries to split the 
+    string into an array of words, then executes the first word
+    in the array with the rest of the words as parameters.
+    Runtime.exec doesn't try to invoke the shell at any point.
+        The key difference is that much of the functionality 
+        provided by the shell thath could be used for mischief
+        ( chaining commands using "&", "&&", "|", "||" )
+    etc, redirecting input and output -- this would simply end up 
+    as a parameter being apssed to the first command, and likely 
+    causing a syntax error, or being thrown out as an invalid 
+    parameter.
