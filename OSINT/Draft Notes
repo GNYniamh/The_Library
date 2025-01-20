@@ -1,0 +1,71 @@
+============================================
+## Operational Security ##
+============================================
+
+OPSEC: Tracking links or images
+Note that you leave your digital footprint on images, even emails.
+
+[Example 1]
+In GMAIL, set "Ask before displaying external images"
+How to send an email with a tracker: go to canarytokens.org
+    Create web bug 
+    Create email with emoji
+    Open dev tools
+    Replace emoji URL with web bug inside "src" in the img tag
+    Send email
+In the demo, the email would be sent to a free, intake-only mailinator 
+account on mailinator.com/v4/public/inboxes.jsp?to=osint 
+>>Another resource to use would be K-9 Mail Client. 
+
+~
+Browse anonymously without a VPN: use Archive 
+Archive.org
+Wayback machine
+Archive.today (currently currently archive.ph) uses sock puppets 
+and also have darkweb archive
+~
+Research accounts / sock puppets 
+Burner phone with enough data to keep the account alive
+When creating a new FB account, consider that FB is more trusting 
+"if you have a purpose" etc 
+    Keep research accounts alive; set profile photos regularly and post
+    periodically. Use generic names, make several accounts, deactivate
+    them to age them, and open them later on when needed.
+
+
+    
+============================================
+##  AWS and GCP ##
+============================================
+
+aws - EC2 for virtual servers, 
+secure domain setup (elastic beanstalk, stmp credentials, route 53) cloud formation in application servers to connect the platform to patient document database 
+gcp - google cloud shell, promoted external ip to reserved static ip, locked down a vpc network, openVPN
+
+S3 - cloud storage service, scalable
+
+EKS = Kubernetes on AWS
+
+Lambda = collect application's fucntions into a single package that can be deployed and managed as one resource. Portable, enable integrate additional dev tools (aws codepipeline, aws codebuild). zero administration run code.
+
+DyanamoDB = fully managed NoSQL database service. seamless scalability; a database that can store and retrieve any amount of data and serve any level of request traffic.
+
+AWS API gateway = securing REST and websocket APIs at any scale, create and maintain APIs. Can connect non-AWS applications to AWS backend resources ie code, servers.
+Increases the overall utility of all other cloud services.
+
+Jenkins = open source automation tool in Java for continuous integration. Used to build and test software projects continuously s it's easier for devs to integrate changes and reap a fresh build.
+
+Docker = opensource, runs containers where applications inside the container considers iteself to be the only process running and multiple can be run independently.
+Fantastic collaboration tool as containers virtualize the operating system instead of hardware (vs a vm)
+
+
+
+
+
+
+
+
+
+
+
+
