@@ -621,3 +621,88 @@ commands within programs.
     as a parameter being apssed to the first command, and likely 
     causing a syntax error, or being thrown out as an invalid 
     parameter.
+
+
+[Example 5]
+
+The following code snippets are vulnerable to OS command injection
+on the Unix/Linux platforms. 
+
+
+    C:
+
+    #include <stdlib.h>
+    #include <stdio.h>
+    #include <string.h>
+
+    int main(int argc, char **argv)
+    {
+        char command [256];
+
+        if(argc != 2) {
+            printf("Error: Please enter a program to time!\n");
+            return -1;
+        }
+
+        memset(&command, 0, sizeof(command));
+
+        strcat(command, "time ./");
+        strcat(command, argv[1]);
+
+        system(command);
+        return 0;
+    }
+
+
+
+If this were a suid binary, consider the case when an attacker enters 
+the following:
+
+
+
+    'ls; cat /etc/shadow'
+
+
+
+In the Unix environment, shell commands are separated by a semi-colon;
+we can now execute system commmands at will!
+
+
+
+[Example 6]
+
+The following PHP code snippet is vulnerable to a command injection 
+attack: 
+
+
+
+<?php
+print("Please specify the name of the file to delete");
+print("<p>");
+$file=$_GET['filename'];
+system("rm $file");
+?>
+
+
+
+The following request and response is an example of a successful 
+attack:
+
+Request
+
+http://127.0.0.1/delete.php?filename=bob.txt;id
+
+Response
+
+Please specify the name of the file to delete 
+
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+
+Sanitizing Input
+
+Replace or Ban arguments with ";"
+Other shell escapes available 
+Example:
+- &&
+- |
+- ...
