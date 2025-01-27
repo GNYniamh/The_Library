@@ -1,0 +1,33 @@
+===========================================
+ ## MOBILE DEVICES ##
+===========================================
+
+//Replacing all mobile devices and accounts 
+goal: providing minimal legitimate data to the companies that benefit most
+from your usage
+
+Why can't I just hard reset my iPhone?
+    >> Every Apple device has a serial number; it's associated with yourk
+    Apple account - both laptops and mobile devices constantly communicate
+    with apple servers, supplying the identifiers associated with your 
+    devices.
+        Hard resetting an iPhone doesn't reset that serial number.
+        Creating a new apple ID for use also doesn't help, as they
+        maintain a log of all apple users connected to any device.
+>>>>A court order to apple can associate your new account to your old and all of your accounts to all of your hardware. 
+    This includes location data and IP addresses. 
+    **NOTE** This also applies to Microsoft and Google
+
+Why not buy used devices to further obfuscate the data?
+    >> You don't know what you're actually buying. 
+    If the former owner of the device had a court order access to the
+    device, it would show that it was now associated with a new account,
+    and they could begin to monitor you - they would have legal authority
+    to do so in such a case.
+Although an extreme example, the same could be said if the device you 
+bought was stolen; police would be entitled to have your identification
+if they located the device. (in this instance, the cell carrier would
+have provided location of the device)
+
+// The most important device to replace is your phone. //
+
