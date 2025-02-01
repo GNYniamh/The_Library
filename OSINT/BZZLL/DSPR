@@ -31,3 +31,53 @@ have provided location of the device)
 
 // The most important device to replace is your phone. //
 
+iPhone is more secure than Google, although they both send data transmissions. 
+Building a custom phone is the ideal solution.
+
+From most to least secure:
+
+1. GrapheneOS Device
+    GrapheneOS is a custom, open-source software which converts 
+    any traditional Google Pixel device into a pure Android without any
+    Google services or connections.
+        This provides all of the basics and allows you to customize the 
+        software you want. 
+        It has a locked bootloader, and doesn't require root access.
+        
+2. Custom, Un-Googled Device
+    If you don't have a Pixel device, you won't be able to use 
+    GrapheneOS.  Your phone of preference might support LineageOS. 
+    This is also a custom ROM without any Google applications
+    or services, but the bootloader must remain unlocked which provides a layer of vulnerabiltiy - but it's still better than stock devices.
+
+3. Custom AOSP Device
+    This would be creating your own Android device without any 
+    Google services.  AOSP = Android Open Soruce Project
+    to build your own versions of Android within devices not supported
+    by GrapheneOS or LineageOS.
+
+4. Manual, Un-Googled Device
+    If you don't want to unlock your bootloader and upload custom
+    ROMs, you might want to keep your google device but want to 
+    remove forced applications or services by using Terminal 
+    on a computer to create a more private and secure environment.
+
+# 5. Apple iOS Device
+    An iPhone isn't an awful situation, and you can make it a bit
+    more secure and private with a few tweaks.
+    This section will identify the configurations you need to make. 
+Purchase the iPhone with cash at an Apple store, and leave without
+accepting Apple's activation and setup services. 
+You can also pay with cash at a local BestBuy. 
+If you purchase a device online, there will always be a digital 
+trail to your true identity. Therefore, in person is preferred.
+
+Once you have the device, you're ready to configure the settings
+and create an Apple ID. 
+    There's a few things to consider here. 
+    If this is a new device, it's a great opportunity to establish
+    a new apple id and prepaid cell account to stop the tracking of your 
+    old accounts - restarting the data collection process with 
+    anonymous details. 
+Based on iOS 15, do the following to configure your new device. 
+
