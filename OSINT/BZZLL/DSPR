@@ -80,4 +80,106 @@ and create an Apple ID.
     old accounts - restarting the data collection process with 
     anonymous details. 
 Based on iOS 15, do the following to configure your new device. 
+    Turn on device
+    Select language and region
+        Set Up Manually
+    Select and join available WIFI
+        Continue
+    Touch ID if desired 
+    Passcode Options
+        Custom Numeric Code
+        Next
+    Dont transfer data and apps 
+    Forgot Password / dont have apple id
+        Set up later
+    Dont use 
+    Agree to terms of service
+    Continue / Customize settings
+    Not Now / imessage and facetime
+    Disable location services
+    Setup later in settings
+    Setup later in settings
+    Dont share Iphone analytics 
+    Get started
+[main menu]
+    Settings configuration
+Settings >
+    Wifi: OFF 
+    Bluetooth: OFF 
+    Cellular: DISABLE access to undesired apps such as Find My, 
+        Contacts, etc. If using ONLY cell data, and not WIFI, you
+        can use this menu as a firewall.
+    Notifications > Show previews: NEVER
+    Notifications > Scheduled Summary: OFF 
+    Notifications > Siri Suggestions: DISABLE ALL
+    Notifications > DISABLE notifications on desired apps, 
+        especially sensitive apps 
+    Notifications > DISABLE all government alerts
+    General > AirPlay & Handoff: DISABLE all
+    General > Picture in picture: DISABLE 
+    Siri & Search > DISABLE all 
+    Siri & Search > (each app) DISABLE all
+    Privacy > Location services: DISABLE all
+    Privacy > Tracking: DISABLE all
+    Privacy > Motion & Fitness: DISABLE all
+    Privacy > Analytics: DISABLE all
+    Privacy > Apple Advertising > Personalized Ads: DISABLE 
+    App Store > Video Autoplay: OFF 
+    App Store > In app ratings: DISABLE
+    Passwords > Security recommendations > Detect compromised... DISABLE
+    Messages > iMessage: DISABLE 
+    Facetime > Facetime: DISABLE 
+    Safari > Search Engine: DuckDuckGo
+    Safari > Search Engine suggestions: DISABLE 
+    Safari > Safari suggestions: DISABLE
+    Safari > Quick Website Search: DISABLE
+    Safari > Preload Top Hit: DISABLE
+    Safari > Autofill: DISABLE all
+    Safari > Prevent Cross Site Tracking: ENABLED 
+    Safari > Fraudulent website warning: DISABLE 
+    Safari > Privacy preserving ad measurement: DISABLE
+    Safari > Check for Apple Pay: DISABLE 
+    Safari > Camera: DENY
+    Safari > Microphone: DENY 
+    Safari > Location: DENY
+    Maps > Share ETA: DISABLE 
+    Maps > Air Quality Index: DISABLE
+    Maps > Weather conditions: DISABLE
+    Maps > Ratings and Photos: DISABLE 
+    Maps > Show ratings and photo suggestion: DISABLE
+    Maps > Follow Up by Email: DISABLE 
+    Shortcuts > icloud sync: DISABLE 
+    Music > Show apple music: DISABLE
+    Camera > Scan QR codes: DISABLE 
+
+    You can then go ahead and remove any unwanted default apps such as 
+    Home / Translate / Books etc.  At this point you still haven't
+    connected an Apple ID though, so you can't download any apps. 
+        Recommendation: establish a new Apple ID at least once a year
+        to slightly confuse apple's data collection system. 
+    Generlaly, get a new id and prepaid cell account any time you 
+    switch to a new device.
+
+** As of iOS 15, signing in through the standard apple id menu logs 
+you into iCloud without an option to disable overall synchronization
+(you can only disable individual services)
+    This is dangerous after rebooting during an update particularly.
+The following should bypass the mandatory iCloud option, and 
+establish a new apple id for your device: 
+
+    Open App Store
+    Click Continue
+    Click Turn off personalized ads
+    Click profile icon in upper right
+    Click create new apple id
+    provide desired email / pass 
+    provide desired name / dob 
+    disable app updates
+    choose none as payment type
+    provide desired address 
+    provide number and verify via text (Discussed below)
+    verify email confirmation code.
+
+
+
 
