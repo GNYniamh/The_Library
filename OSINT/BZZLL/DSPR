@@ -180,6 +180,56 @@ establish a new apple id for your device:
     provide number and verify via text (Discussed below)
     verify email confirmation code.
 
+    Settings > notice your new AppleID is present. 
+    Click Finish setting up 
+    enter your PIN 
+    Cancel > Back 
+    Start using iCloud > Not now 
+    Click your Apple ID account and confirm iCloud is OFF
+
+
+    Settings > Apple ID > Media Purchases > View Account 
+        > Recommendations: DISABLE 
+    Settings > Apple ID > Ratings Reviews > REMOVE ALL 
+    Settings > Apple ID > iCloud > DISABLE ALL 
+    Settings > Apple ID > Find My > Share MyLocation: DISABLE 
+    Settings > Finish setting up > set up siri: setup later 
+
+*After you've successfully signed into the appstore but NOT iCloud,
+open the Find My app and confirm that it prompts you to sign in 
+but DONT sign in. This indicates that the basic abilities to 
+track your device are disabled. 
 
 
 
+// What about using VOIPs?
+    Previously, it was recommended to use a service such as 
+    Google Voice to create a ghost number for registration.
+    However, we now know that apple continuously collects
+    hardware identifiers, such as serial numbers and telephone
+    numbers associated with teh SIM card inside the device.
+        Therefore, Apple knows your real cell number and a unique
+        device ID; so there's no real reason to hide your 
+        anonymous prepaid number from them / eliminates the
+        need for the VOIP. 
+Deviating from previous years, if you are registering new 
+anonymous prepaid service within a new iOs device, providing a new
+number during the Apple ID creation process is the best option today.
+
+
+
+After you've logged into your new apple id account, you may notice
+that apple has enabled iCloud without yoru consent; common, and 
+their attempt to lock you into their cloud storage options. 
+    To Correct this: 
+        Settings > your apple ID > if the iCloud option is 
+        OFF, you're fine 
+        If it displays ANYTHING ELSE, then you're logged into 
+        iCloud (apple is collecting data).
+            In that case: Logout > allow device to remove 
+            data from iCloud.
+        Return to AppStore and log in to the account. 
+        this should present a banner notification 
+        under Settings to complete the setup; choose NOT NOW 
+        for iCloud. 
+            Confirm that the iCloud setting displays OFF. 
