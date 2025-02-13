@@ -233,3 +233,22 @@ their attempt to lock you into their cloud storage options.
         under Settings to complete the setup; choose NOT NOW 
         for iCloud. 
             Confirm that the iCloud setting displays OFF. 
+
+========================================
+# iOS Application considerations 
+========================================
+// by application //
+
+
+# Lockdown Privacy 
+    This firewall blocks known analytics, trackers, and malicious 
+    connections being made within apps and the operating system.
+Default config is minimal, so tap "block list", then enable each 
+category option. 
+    If you apply DNS filtering techniques covered later, you may 
+    not need this app at all though. 
+
+
+# FireFox Focus 
+    Preferred default browser -- take the following actions: 
+
