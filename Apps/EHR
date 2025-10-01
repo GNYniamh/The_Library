@@ -1,0 +1,99 @@
+EHR Guide
+In regards to ehr:
+	```// Links your forked repo to the actual master
+git remote add upstream https://github.com/ [ehr]
+
+// Syncs up your forked repo with the actual master
+git checkout master
+git fetch upstream
+git reset --hard upstream/master
+
+// Create a new branch for a new issue
+git checkout -b "somebranchname"```
+
+that’s what you should be doing for every new issue you work on. it’s general house keeping stuff to make sure you have a fresh starting point.
+So you clone and download the zip file of what you want to edit, and then you open it with VS, also open Gitbash.  
+Gitbash is where you commit and push the changes you have made, VS is where you make those changes.
+There are now updates where you can seamlessly do so with VScode which may be easier to work with.
+
+Gitbash:
+		git clone https://website dot EHR
+		cd EHR
+		git checkout -b"branchname"
+	Then you make your edits in VS and 
+		git add TheFileName.png
+		git commit -m"briefly state what you changed"
+		git push [you]
+Done!
+
+Likewise, in VS you can search for [ the item, ie _blank ]
+so for the one project I searched all files for _blank and added rel="noehr" between <a..>
+		git status
+That will show you specifically whath files have changed but not their physical content
+And then when I wanted to make this compatible with windows:
+so for the window.open lines, this is a way to do it
+if you take `onclick='window.open("../patient_file/addr_appt_label.php","_blank")'` and add `.opener = null` to the end, right before the ' at the end, it seems to work for me
+
+so that line would look like this:
+`onclick='window.open("../patient_file/addr_appt_label.php","_blank").opener = null'`
+
+stop a command / exit commandline in gitbash
+	ctrl+c 
+	^C
+
+	//docker//
+//SAMPLE: 
+mysql:
+    restart: always
+    image: mariadb:10.2
+    command: ['mysqld','--character-set-server=utf8']
+    ports:
+    - 8320:3306
+    volumes:
+    - databasevolume:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+
+#defines database server that sets up
+
+EHR:
+    restart: always
+    # use an image if you're not changing the build steps:
+    image: EHR/ehr:flex
+    # if editing the Dockerfile, clone the devops repo and point to the path:
+    # build: ../ehr-devops/docker/ehr/flex-edge/
+    ports:
+    - 8300:80
+    - 9300:443
+    - 3000:3000 # browsersync
+    - 3001:3001 # browsersync-admin
+    volumes:
+    - .:/var/www/localhost/htdocs/ehr:rw
+    - assetsvolume01:/var/www/localhost/htdocs/ehr/public:rw
+    - cachevolume01:/var/www/localhost/htdocs/ehr/gacl/admin/templates_c:rw
+    - cachevolume02:/var/www/localhost/htdocs/ehr/interface/main/calendar/modules/PostCalendar/pntemplates/compiled:rw
+    - cachevolume03:/var/www/localhost/htdocs/ehr/interface/main/calendar/modules/PostCalendar/pntemplates/cache:rw
+    - configvolume01:/var/www/localhost/htdocs/ehr/sites/default:rw
+    - configvolume02:/var/www/localhost/htdocs/ehr/interface/modules/zend_modules/config:rw
+    - logvolume01:/var/log
+    - nodemodules:/var/www/localhost/htdocs/ehr/node_modules:rw
+    - vendordir:/var/www/localhost/htdocs/ehr/vendor:rw
+    - ccdamodule:/var/www/localhost/htdocs/ehr/ccdaservice:rw
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_ROOT_PASS: root
+      MYSQL_USER: ehr
+      MYSQL_PASS: ehr
+      OE_USER: admin
+      OE_PASS: pass
+      FLEX_REPOSITORY: https://github.com/ehr/ehr.git
+      FLEX_REPOSITORY_BRANCH: master
+      EASY_DEV_MODE: "yes"
+    depends_on:
+    - mysql
+
+#sets up a web server with php already installed and all of the ehr files, along with all of the other things it needs to do
+
+#open gitbash or powershell and run 
+	docker-compose up
+output is a url to place into browser
