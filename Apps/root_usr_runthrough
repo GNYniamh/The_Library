@@ -213,3 +213,71 @@ nc -lvp 9999
 
 
 ##trying to get a root shell next step....
+==========================
+## THM ##
+==========================
+Web security course && certificate 
+
+//The aim of this path is to learn to attack web applications. 
+//To successfully exploit and attack web apps, you need to understand 
+//how they work. 
+//
+//Section 1 [Web Fundamentals] will give you the pre-reqs 
+//for this. 
+//Section 2 [Security Tools] focuses on learning how to 
+//use Industry Standard tooling to interact with the targets. 
+//Section 3 [Vulnerabilities] covers various vulns in web apps, going over
+//root causes of the vulns and how to exploit them.
+//Section 4 [Practice Makes Perfect] will be learning application.
+//
+
+Skills Gained: 
+-understand how web applications work
+-utlize Industry Standard tooling when attacking web applications 
+-explain, exploit common web Vulnerabilities
+-apply this knowledge to other targets 
+
+Technology used: 
+-BurpSuite 
+    Repeater 
+    Intruder 
+    Extender
+-OWASP Zap 
+-HTTP 
+-Django 
+-LFI 
+    Local File Inclusion vulnerability 
+-Authentication mechanisms 
+-XXE
+    XML External Entity vulnerability 
+-XSS
+    Cross site scripting 
+-ZTH 
+    SSTI, CSRF, JWT, XXE web vulns 
+-SSRF 
+    Server Side Request forgery vulnerability 
+-misconfiguration of web servers rather than sheer exploits 
+-file-upload vulns 
+-dirbuster 
+-hydra 
+-nmap 
+-nikto 
+-metasploit 
+
+
+===============================
+## Tutorial ##
+===============================
+
+1. Click the blue Start Attackbox button 
+2. Start the target machine, allow it one minute to configure 
+3. Copy the IP address of the machine and in the attackbox open a firefox instance and paste that ip 
+
+## Usage Instructions: ##
+    Tools are located in /root/Desktop/Tools 
+        and              /opt/ 
+    Webshells are located in /usr/share/webshells 
+    Wordlists are located in /usr/share/wordlists 
+    To use Empire and Starkiller, read the following file 
+        /root/Instructions/empire-starkiller.txt 
+
