@@ -313,7 +313,7 @@ Crafting appropriate request: [1]
 
 1- remove page from the cache 
 
-GET http://testsite.com/index.html HTTP/1.1
+GET http://testsite.com/index.html HTTP/1.1 
 Pragma: no-cache
 Host: testsite.com
 User-Agent: Mozilla/4.7 [en] (WinNT; I)
